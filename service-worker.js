@@ -1,7 +1,8 @@
-const CACHE_NAME = 'ecofinz-cache-v2';
+const CACHE_NAME = 'moneygrowth-cache-v3';
 const URLS_TO_CACHE = [
-  '/',
-  '/index.html',
+  './',
+  './index.html',
+  './manifest.json'
 ];
 
 self.addEventListener('install', event => {
@@ -9,14 +10,13 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache');
+        console.log('Cache abierta');
         return cache.addAll(URLS_TO_CACHE);
       })
   );
 });
 
 self.addEventListener('fetch', event => {
-  // No cacheamos las peticiones a la API de Gemini
   if (event.request.url.includes('generativelanguage.googleapis.com')) {
     return;
   }
@@ -24,25 +24,17 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Cache hit - return response
         if (response) {
           return response;
         }
 
         return fetch(event.request).then(
           response => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200) {
+            if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
             
-            // Si la respuesta es de una extensión de chrome, no la cacheamos
-            if(event.request.url.startsWith('chrome-extension://')) {
-                return response;
-            }
-            
             const responseToCache = response.clone();
-
             caches.open(CACHE_NAME)
               .then(cache => {
                   cache.put(event.request, responseToCache);
@@ -50,7 +42,9 @@ self.addEventListener('fetch', event => {
 
             return response;
           }
-        );
+        ).catch(() => {
+            // Fallback silencioso si falla el fetch y no hay caché
+        });
       })
   );
 });

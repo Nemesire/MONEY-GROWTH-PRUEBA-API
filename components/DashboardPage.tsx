@@ -11,6 +11,11 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 const ComprehensiveFinancialSummaryWidget: React.FC = () => {
     const { getExpandedTransactionsForYear } = useApp();
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
     
     const getInitialDates = () => {
         const endDate = new Date();
@@ -97,6 +102,8 @@ const ComprehensiveFinancialSummaryWidget: React.FC = () => {
 
     const PIE_COLORS = ['#F59E0B', '#3B82F6', '#22C55E', '#f87171', '#9CA3AF'];
 
+    if (!isMounted) return <Card><div className="h-[400px] flex items-center justify-center text-slate-500">Cargando datos...</div></Card>;
+
     return (
         <Card>
             <div className="mb-8">
@@ -163,6 +170,11 @@ const ComprehensiveFinancialSummaryWidget: React.FC = () => {
 
 const CurrentMonthTrendsWidget: React.FC = () => {
     const { getExpandedTransactionsForYear } = useApp();
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const trendsData = useMemo(() => {
         const today = new Date();
@@ -194,6 +206,8 @@ const CurrentMonthTrendsWidget: React.FC = () => {
         }
         return data;
     }, [getExpandedTransactionsForYear]);
+
+    if (!isMounted) return <Card><div className="h-[250px] flex items-center justify-center text-slate-500">Cargando gráficos...</div></Card>;
 
     return (
         <Card>

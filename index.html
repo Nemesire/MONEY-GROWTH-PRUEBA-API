@@ -2,11 +2,14 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MoneyGrowth - Personal Finance Hub</title>
-    <link rel="manifest" href="./manifest.json">
+    <!-- Favicon Embebido para evitar 404 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>" />
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0F172A" />
+    
+    <!-- Tailwind CSS Configuración Robusta -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script>
@@ -35,36 +38,41 @@
       }
     </script>
     <style>
+      /* Pre-estilos para evitar saltos visuales */
+      body { background-color: #0F172A; color: #CBD5E1; overflow-x: hidden; }
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      body { overflow-x: hidden; }
     </style>
     <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.1.1/",
-    "react": "https://esm.sh/react@^19.1.1",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
-    "react-dom": "https://esm.sh/react-dom@^19.1.1",
-    "@google/genai": "https://esm.sh/@google/genai@^1.12.0",
-    "recharts": "https://esm.sh/recharts@^3.1.1",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.7.1",
-    "react-markdown": "https://esm.sh/react-markdown@^9.0.1",
-    "remark-gfm": "https://esm.sh/remark-gfm@^4.0.0",
-    "jspdf": "https://esm.sh/jspdf@^2.5.1",
-    "html2canvas": "https://esm.sh/html2canvas@^1.4.1"
-  }
-}
-</script>
-</head>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.1.1",
+        "react/": "https://esm.sh/react@^19.1.1/",
+        "react-dom": "https://esm.sh/react-dom@^19.1.1",
+        "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.12.0",
+        "recharts": "https://esm.sh/recharts@^3.1.1",
+        "react-router-dom": "https://esm.sh/react-router-dom@^7.7.1",
+        "react-markdown": "https://esm.sh/react-markdown@^9.0.1",
+        "remark-gfm": "https://esm.sh/remark-gfm@^4.0.0",
+        "jspdf": "https://esm.sh/jspdf@^2.5.1",
+        "html2canvas": "https://esm.sh/html2canvas@^1.4.1"
+      }
+    }
+    </script>
+  </head>
   <body class="bg-slate-900 text-slate-300">
     <div id="root"></div>
-    <script type="text/babel" data-type="module" data-presets="react,typescript" src="./index.tsx"></script>
+    <!-- Script principal sin puntos relativos conflictivos -->
+    <script type="text/babel" data-type="module" data-presets="react,typescript" src="index.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./service-worker.js').catch(err => console.log('SW fail:', err));
+          // Registro directo del SW
+          navigator.serviceWorker.register('service-worker.js')
+            .then(reg => console.log('SW registrado'))
+            .catch(err => console.log('SW fallo:', err));
         });
       }
     </script>
